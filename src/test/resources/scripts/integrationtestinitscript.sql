@@ -10,7 +10,9 @@ create table person (
     guid varchar(36) not null,
     email varchar(255) not null,
     name varchar(255) not null,
+    phone varchar(255) not null,
     password varchar(255) not null,
+    notification_type varchar(255) not null,
     primary key (guid)
 );
 
@@ -46,16 +48,16 @@ alter table if exists rating
 insert 
     into
         person
-        (email, name, password, guid) 
+        (email, name, password, guid, phone, notification_type)
     values
-        ('marcelo@example.com', 'Marcelo Teixeira', '$2a$10$6jN0.NqnvcOFsPnbNig.BOVm4RWVWIbGAdWVuBmgFY8DprcucOwc.', '18a114b0-502f-438c-836e-cad4757eecf4');
+        ('marcelo@example.com', 'Marcelo Teixeira', '$2a$10$6jN0.NqnvcOFsPnbNig.BOVm4RWVWIbGAdWVuBmgFY8DprcucOwc.', '18a114b0-502f-438c-836e-cad4757eecf4', '35999887766', 'EMAIL');
 
 insert 
     into
         person
-        (email, name, password, guid) 
+        (email, name, password, guid, phone, notification_type)
     values
-        ('teste@example.com', 'Teste', '$2a$10$6jN0.NqnvcOFsPnbNig.BOVm4RWVWIbGAdWVuBmgFY8DprcucOwc.', '18a124b0-502f-438c-836e-cad4757eecf4');
+        ('teste@example.com', 'Teste', '$2a$10$6jN0.NqnvcOFsPnbNig.BOVm4RWVWIbGAdWVuBmgFY8DprcucOwc.', '18a124b0-502f-438c-836e-cad4757eecf4', '35988776655', 'SMS');
 
 insert 
     into

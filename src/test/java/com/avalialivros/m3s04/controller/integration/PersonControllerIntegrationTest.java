@@ -1,6 +1,7 @@
 package com.avalialivros.m3s04.controller.integration;
 
 import com.avalialivros.m3s04.configuration.TestContainersDatabaseConfiguration;
+import com.avalialivros.m3s04.model.enums.NotificationTypeEnum;
 import com.avalialivros.m3s04.model.transport.PersonDTO;
 import com.avalialivros.m3s04.model.transport.operations.CreatePersonDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -37,7 +38,7 @@ public class PersonControllerIntegrationTest extends TestContainersDatabaseConfi
 
     @Test
     void createPersonShouldReturnSuccess() throws JsonProcessingException {
-        CreatePersonDTO mockPerson = new CreatePersonDTO("Marcelo Teste", "marcelo.teste@gmail.com", "UmaSenhaFraca");
+        CreatePersonDTO mockPerson = new CreatePersonDTO("Marcelo Teste", "marcelo.teste@gmail.com", "xx999887766","UmaSenhaFraca", NotificationTypeEnum.SMS);
         String responseAsJson = RestAssured.given()
                 .spec(specification)
                 .contentType("application/json")
@@ -53,5 +54,6 @@ public class PersonControllerIntegrationTest extends TestContainersDatabaseConfi
         Assertions.assertNotNull(personDTO.email());
         Assertions.assertEquals(mockPerson.name(), personDTO.name());
         Assertions.assertEquals(mockPerson.email(), personDTO.email());
+        Assertions.assertEquals(mockPerson.phone(), personDTO.phone());
     }
 }

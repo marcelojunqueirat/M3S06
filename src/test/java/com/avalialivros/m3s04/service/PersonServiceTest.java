@@ -2,6 +2,7 @@ package com.avalialivros.m3s04.service;
 
 import com.avalialivros.m3s04.exceptions.PersonNotFoundException;
 import com.avalialivros.m3s04.model.Person;
+import com.avalialivros.m3s04.model.enums.NotificationTypeEnum;
 import com.avalialivros.m3s04.model.transport.operations.CreatePersonDTO;
 import com.avalialivros.m3s04.repository.PersonRepository;
 import org.junit.jupiter.api.Assertions;
@@ -34,7 +35,7 @@ public class PersonServiceTest {
     @Test
     void createUserWithNoFail() {
         CreatePersonDTO person =
-                new CreatePersonDTO("Teste 01", "teste01@example.com", "UmaSenhaForte");
+                new CreatePersonDTO("Teste 01", "teste01@example.com", "11922334455","UmaSenhaForte", NotificationTypeEnum.EMAIL);
         String passwordEncoded = this.passwordEncoder.encode(person.password());
 
         this.personService.create(person);
@@ -43,6 +44,7 @@ public class PersonServiceTest {
 
         Assertions.assertEquals(person.name(), createdPerson.getName());
         Assertions.assertEquals(person.email(), createdPerson.getEmail());
+        Assertions.assertEquals(person.phone(), createdPerson.getPhone());
         Assertions.assertNotNull(createdPerson.getGuid());
         Assertions.assertEquals(36, createdPerson.getGuid().length());
         Assertions.assertEquals(passwordEncoded, createdPerson.getPassword());

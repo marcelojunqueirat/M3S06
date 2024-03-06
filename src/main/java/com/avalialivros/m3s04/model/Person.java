@@ -1,9 +1,8 @@
 package com.avalialivros.m3s04.model;
 
+import com.avalialivros.m3s04.model.enums.NotificationTypeEnum;
 import com.avalialivros.m3s04.model.transport.operations.CreatePersonDTO;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -24,7 +23,14 @@ public class Person implements UserDetails {
     private String email;
 
     @Column(nullable = false)
+    private String phone;
+
+    @Column(nullable = false)
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private NotificationTypeEnum notificationType;
 
     public Person() {
     }
@@ -33,7 +39,9 @@ public class Person implements UserDetails {
         this.guid = UUID.randomUUID().toString();
         this.name = createPersonDTO.name();
         this.email = createPersonDTO.email();
+        this.phone = createPersonDTO.phone();
         this.password = password;
+        this.notificationType = createPersonDTO.notificationType();
     }
 
     public String getGuid() {
@@ -46,6 +54,14 @@ public class Person implements UserDetails {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public NotificationTypeEnum getNotificationType() {
+        return notificationType;
     }
 
     public void setGuid(String guid) {
