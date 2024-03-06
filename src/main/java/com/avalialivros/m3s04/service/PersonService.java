@@ -1,9 +1,11 @@
 package com.avalialivros.m3s04.service;
 
+import com.avalialivros.m3s04.exceptions.InvalidNotificationTypeException;
 import com.avalialivros.m3s04.exceptions.PersonNotFoundException;
 import com.avalialivros.m3s04.model.Person;
 import com.avalialivros.m3s04.model.transport.PersonDTO;
 import com.avalialivros.m3s04.model.transport.operations.CreatePersonDTO;
+import com.avalialivros.m3s04.operations.NotificationTemplateMethod;
 import com.avalialivros.m3s04.repository.PersonRepository;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
@@ -15,7 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PersonService implements UserDetailsService {
+public class PersonService extends NotificationTemplateMethod implements UserDetailsService  {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PersonService.class);
 
@@ -35,12 +37,20 @@ public class PersonService implements UserDetailsService {
     }
 
     @Transactional
-    public PersonDTO create(CreatePersonDTO createPersonDTO){
+    public PersonDTO create(CreatePersonDTO createPersonDTO) {
         LOGGER.info("Iniciando criação de usuário...");
         String passwordEnconded = this.passwordEncoder.encode(createPersonDTO.password());
         Person person = new Person(createPersonDTO, passwordEnconded);
         this.personRepository.save(person);
+
+        this.sendNotification(person);
         return new PersonDTO(person);
+    }
+
+    private void sendNotification(Person person) throws InvalidNotificationTypeException {
+        String content = person.getNotificationType() +
+                ": Hello! Welcome to the books management platform.";
+        super.notify(person, content);
     }
 
     public Person findByEmail(String email) throws PersonNotFoundException {
