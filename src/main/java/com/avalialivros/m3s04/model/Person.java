@@ -44,6 +44,15 @@ public class Person implements UserDetails {
         this.notificationType = createPersonDTO.notificationType();
     }
 
+    public Person(String name, String email, String phone, String password, NotificationTypeEnum notificationType) {
+        this.guid = UUID.randomUUID().toString();
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.password = password;
+        this.notificationType = notificationType;
+    }
+
     public String getGuid() {
         return guid;
     }
